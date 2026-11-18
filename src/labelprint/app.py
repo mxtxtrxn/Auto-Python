@@ -293,6 +293,7 @@ class LabelPrintApp:
             for item in self.dsClientes:
                 if item[1] == selected:
                     self.vIdCliente = item[0]
+                    self.varCliente.set("Cliente: " + str(item[1]))
             self.load_models(self.vIdCliente)
 
     def load_models(self, client_id: int) -> None:
@@ -312,6 +313,7 @@ class LabelPrintApp:
             for item in self.dsModelo:
                 if item[3] == selected:
                     self.vIdModelo = item[2]
+                    self.varModelo.set("Modelo: " + str(item[3]))
             self.load_parts(self.vIdModelo)
 
     def load_parts(self, model_id: int) -> None:
@@ -324,12 +326,28 @@ class LabelPrintApp:
 
     def get_selected_np(self, event) -> None:
         selected = self.comboNP.get()
-        if len(selected) > 0:
-            for item in self.dsNP:
-                if item[1] == selected:
-                    self.itemNP = item
+        if len(selected) == 0:
+            return
+        for item in self.dsNP:
+            if item[1] == selected:
+                self.itemNP = item
+                self.vIdNP = item[0]
+                self.vSAP = str(item[1])
+                self.vCodigoBarras = str(item[5])
+                self.CB1 = str(item[2])
+                self.CB2 = str(item[3])
+                self.CB3 = str(item[4])
+                self.iStdPack = int(item[6])
+                self.varNP.set("No. Parte: " + str(item[1]))
+                self.varNPCliente.set("NP Cliente: " + str(item[2]))
+                model_rows = ModelRepository.get(self.vIdModelo)
+                if model_rows:
+                    self.varplantilla = model_rows[0][4]
+                    self.varestilo = model_rows[0][5]
 
     def start(self) -> None:
+        if hasattr(self, "frameGeneral"):
+            self.frameGeneral.grid_forget()
         self.frameGeneral = tk.LabelFrame(self.wind)
         self.frameGeneral.grid(row=1, column=1, padx=20, pady=20, sticky=tk.N)
 
@@ -601,6 +619,8 @@ class LabelPrintApp:
     def ajustar_piezas(self) -> None:
         if not hasattr(self, "frameGeneral"):
             return
+        if hasattr(self, "frameAjuste"):
+            self.frameAjuste.grid_forget()
         self.frameAjuste = tk.LabelFrame(
             self.frameGeneral, text="Ajuste de piezas", font=("Arial", 14)
         )
