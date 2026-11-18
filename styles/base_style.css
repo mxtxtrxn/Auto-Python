@@ -1,0 +1,24 @@
+ @page {
+    width: 40mm;
+    height: 14mm;
+    padding: 1mm 0 0 0;
+}
+img {
+    height: 18mm;
+    display: inline-block;
+    vertical-align: middle;
+    image-rendering: pixelated;
+}
+.label {
+    font-family: Arial, Verdana, Helvetica, sans;
+    vertical-align: middle;
+    display: inline-block;
+    font-size: 10px;
+}
+.label-small {
+    font-family: Arial, Verdana, Helvetica, sans;
+    font-weight: bold;
+    vertical-align: middle;
+    display: inline-block;
+    font-size: 11px;
+}

@@ -1,0 +1,19 @@
+<br/>
+<table>
+<tr>
+<td style="width=20%"></td>
+<td>
+<span class='label'>
+    {{ item_name }} <br/>
+    {{ family_name }}<br/>
+    {{ rack_name }}<br/>
+    {{ label_tools.now() }}
+</span>
+<img src="{{label_tools.qr_code(sample_id)}}"/>
+<span class='label-small'>
+    {{ part_number }} <br/>
+    {{ quantity }}
+</span>
+</td>
+</tr>
+</table>
