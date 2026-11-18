@@ -23,12 +23,21 @@ class Database:
 
     def connect(self):
         if self._connection is None:
-            self._connection = mysql.connector.connect(**self.settings.as_kwargs())
+            try:
+                self._connection = mysql.connector.connect(
+                    **self.settings.as_kwargs()
+                )
+            except Error as exc:
+                raise DatabaseError(f"conexion: {exc}") from exc
         return self._connection
 
     def close(self) -> None:
-        if self._connection is not None and self._connection.is_connected():
-            self._connection.close()
+        if self._connection is not None:
+            try:
+                if self._connection.is_connected():
+                    self._connection.close()
+            except Error:
+                pass
         self._connection = None
 
     def __enter__(self) -> "Database":
